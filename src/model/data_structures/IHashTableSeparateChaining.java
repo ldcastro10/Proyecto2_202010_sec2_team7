@@ -40,11 +40,7 @@ public interface IHashTableSeparateChaining <K extends Comparable<K>,V extends C
 	 * 
 	 */
 	public Iterator<K> keys();
-	
-	/**
-	 * 
-	 */
-	ListaHash<K, V> darListaEnPos(int index);	
+		
 	/**
 	 * 
 	 */

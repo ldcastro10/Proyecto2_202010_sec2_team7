@@ -113,30 +113,6 @@ public class Queue<E> implements IQueue<E>
 			return false;
 	}
 
-	public int indexOf(Object o) 
-	{
-		int index = -1;
-		if(primerNodo != null)
-		{
-			Nodo<E> actual = primerNodo;
-			E elemento = primerNodo.darElemento();
-			index++;
-			while(!o.equals(elemento))
-			{
-				actual = actual.darSiguiente();
-				if(actual != null)
-				{
-					elemento = actual.darElemento();
-					index++;	
-				}
-				else
-					return -1;
-			}
-		}
-
-		return index;
-	}
-
 	public E get(int index) throws IndexOutOfBoundsException
 	{
 		E elemento = null;

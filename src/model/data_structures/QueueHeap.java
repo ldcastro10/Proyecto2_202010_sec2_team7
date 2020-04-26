@@ -52,7 +52,6 @@ public class QueueHeap<E extends Comparable<E>> implements IQueueHeap<E>
 			throw new NullPointerException();
 	}
 
-	@SuppressWarnings("unchecked")
 	public Object[] toArray() 
 	{
 		Object[] arreglo = new Object[size()];
@@ -161,30 +160,6 @@ public class QueueHeap<E extends Comparable<E>> implements IQueueHeap<E>
 		else
 			throw new IndexOutOfBoundsException();
 		return elemento;
-	}
-
-	/**
-	 * Devuelve el nodo de la posicion dada
-	 * @param pos la posicion  buscada
-	 * @return el nodo en la posicion dada 
-	 * @throws IndexOutOfBoundsException si index < 0 o index >= size()
-	 */
-	public Nodo<E> darNodo(int index)
-	{
-		if(index < 0 || index > cantidadElementos)
-		{
-			throw new IndexOutOfBoundsException("Se esta pidiendo el indice: " + index + " y el tamano de la lista es de " + cantidadElementos);
-		}
-
-		Nodo<E> actual = primerNodo;
-		int posActual = 0;
-		while(actual != null && posActual < index)
-		{
-			actual = actual.darSiguiente();
-			posActual ++;
-		}
-
-		return actual;
 	}
 
 	public void clear() 

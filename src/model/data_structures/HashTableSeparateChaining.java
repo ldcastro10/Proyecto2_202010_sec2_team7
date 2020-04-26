@@ -33,13 +33,7 @@ public class HashTableSeparateChaining<K extends Comparable<K>,V extends Compara
 			listas[i]= new ListaHash<>();
 		}
 	}
-	
-	@Override
-	public ListaHash<K, V> darListaEnPos(int index)
-	{
-		return listas[index];
-	}
-	
+		
 	@Override
 	public int size() 
 	{		

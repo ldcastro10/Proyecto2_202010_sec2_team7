@@ -8,6 +8,9 @@ import java.util.Calendar;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.Iterator;
+
+import javax.xml.bind.annotation.adapters.HexBinaryAdapter;
+
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
@@ -19,7 +22,6 @@ import model.data_structures.QueueHeap;
 import model.data_structures.RedBlackBST; 
 /**
  * Definicion del modelo del mundo
- *
  */
 public class MVCModelo 
 { 
@@ -286,195 +288,171 @@ public class MVCModelo
 		return result;
 	}
 
-
 	/*
 	 * Todos los datos de la parte se se guardan en un arreglo dinamico
 	 */
-	public ArregloDinamico Parte2C()
+	public ArregloDinamico Parte2CY3C(boolean ordenar)
 	{
-		ArregloDinamico resultado = new ArregloDinamico<>(3);		
-
-
-		Comparable<Comparendo>[] comparendosOrdenados = listaComparendos.toArray();
-		sortMerge(comparendosOrdenados);		
-
-		int costoTotal = 0;	
-
+		ArregloDinamico resultado = new ArregloDinamico<>(4);
+		ArregloDinamico<Comparendo> listaComparendos = this.listaComparendos;
+		
+		if(ordenar)
+			listaComparendos = ordenarComparendos();	
+		
+		int costoTotal = 0;
+		
 		int promedioEspera = 0;
-
+		
 		ArregloDinamico<ArregloDinamico<Integer>> datos = new ArregloDinamico<>(365);
-
+		
 		ArregloDinamico<Integer> tiempos400 = new ArregloDinamico<>(3);
-		int tiempoMin400 = Integer.MAX_VALUE;
+		int tiempoMin400 = 365;
 		int tiempoMax400 = 0;
 		int tiempoPro400 = 0;
+		int cantNoProce400 = 0;
 
 		ArregloDinamico<Integer> tiempos40 = new ArregloDinamico<>(3);
-		int tiempoMin40 = Integer.MAX_VALUE;
+		int tiempoMin40 = 365;
 		int tiempoMax40 = 0;
 		int tiempoPro40 = 0;
+		int cantNoProce40 = 0;
 
 		ArregloDinamico<Integer> tiempos4 = new ArregloDinamico<>(3);
-		int tiempoMin4 = Integer.MAX_VALUE;
+		int tiempoMin4 = 365;
 		int tiempoMax4 = 0;
 		int tiempoPro4 = 0;
+		int cantNoProce4 = 0;
 
 		ArregloDinamico<ArregloDinamico<Integer>> datos2 = new ArregloDinamico<>(3);
+		double limite = listaComparendos.darTamano();			
 
-
-		try
-		{			
-			int numeroDia = 0; 
-
+		try 
+		{
+			int index = 0;
+			
+			int compEnEspera = (int) limite;
+			
 			SimpleDateFormat spf = new SimpleDateFormat("yyyy/MM/dd");
 			Date date1 = spf.parse("2018/01/01");
+			
+			Calendar c = Calendar.getInstance();
+			c.setTime(date1);
+			int dia = c.get(Calendar.DAY_OF_YEAR);
 
-			int index = 0;
-			int compEnEspera = 0;
-
-			while(date1.compareTo(spf.parse("2019/01/01")) <= 0 && comparendosOrdenados.length != index)
+			while(date1.compareTo(spf.parse("2019/01/01")) <= 0 && limite != index)
 			{
 				int compRevisados = 0;
+				
 
-
-				Calendar c = Calendar.getInstance();
-				c.setTime(date1);
-				int dia = c.get(Calendar.DAY_OF_YEAR);				
-
-				Comparendo comp = (Comparendo) comparendosOrdenados[index];
-				Date fechaComp = comp.getFecha();
-				c.setTime(fechaComp);
-
-				int diaComp = c.get(Calendar.DAY_OF_YEAR);							
-				int diferencia = diaComp-dia;
-
-				while(compRevisados < 1500 && diferencia == 0) 
-				{	
-					compRevisados++;
-					index++;
-					if(index == comparendosOrdenados.length)
-						break;
-					
-					if(diferencia != 0)
-						compEnEspera--;
-
-					comp = (Comparendo) comparendosOrdenados[index];
-					fechaComp = comp.getFecha();
-					c.setTime(fechaComp);
-
-					diaComp = c.get(Calendar.DAY_OF_YEAR);
-					diferencia = diaComp-dia;
-
-				}	
-
-				int indexEspera = index;
-				if(index != comparendosOrdenados.length)
+				while(compRevisados < 1500 && limite != index)
 				{
-					Comparendo compEspera = (Comparendo) comparendosOrdenados[indexEspera];
-					Date fechaCompEpera = comp.getFecha();
+					Comparendo comp = listaComparendos.darElemento(index);
+					Date fechaComp = comp.getFecha();
 					c.setTime(fechaComp);
-
-					int diaCompEspera = c.get(Calendar.DAY_OF_YEAR);							
-					int diferencia2 = diaComp-dia;
-
-					while(diferencia2 == 0)
+					
+					int diaComp = c.get(Calendar.DAY_OF_YEAR);							
+					int diferencia = diaComp-dia;
+					
+					if(diferencia > 0)
 					{
-						//Calcular penalizaciones
-
 						String descripcion = comp.getDescripcionInfraccion();
 
 						if(descripcion.contains("SERA INMOVILIZADO") || descripcion.contains("SERÁ INMOVILIZADO"))	
 						{
-							costoTotal += 400;
+							costoTotal += diferencia*400;
 
-							if(tiempoMax400 < diferencia2)
-								tiempoMax400 = diferencia2;
-							if(tiempoMin400 > diferencia2)
-								tiempoMin400 = diferencia2;
+							if(tiempoMax400 < diferencia)
+								tiempoMax400 = diferencia;
+							if(tiempoMin400 > diferencia)
+								tiempoMin400 = diferencia;
 
-							tiempoPro400 += diferencia2;
+							tiempoPro400 += diferencia;
+							promedioEspera += diferencia;
+							
+							cantNoProce400++;
 
 						}
 						else if(descripcion.contains("LICENCIA DE CONDUCCIÓN"))
 						{
-							costoTotal += diferencia2*40;
+							costoTotal += diferencia*40;
 
-							if(tiempoMax40 < diferencia2)
-								tiempoMax40 = diferencia2;
-							if(tiempoMin40 > diferencia2)
-								tiempoMin40 = diferencia2;
+							if(tiempoMax40 < diferencia)
+								tiempoMax40 = diferencia;
+							if(tiempoMin40 > diferencia)
+								tiempoMin40 = diferencia;
 
-							tiempoPro40 += diferencia2;
+							tiempoPro40 += diferencia;
+							promedioEspera += diferencia;
+							
+							cantNoProce40++;
 						}
 						else
 						{
-							costoTotal += diferencia2*4;
+							costoTotal += diferencia*4;
 
-							if(tiempoMax4 < diferencia2)
-								tiempoMax4 = diferencia2;
-							if(tiempoMin4 > diferencia2)
-								tiempoMin4 = diferencia2;
+							if(tiempoMax4 < diferencia)
+								tiempoMax4 = diferencia;
+							if(tiempoMin4 > diferencia)
+								tiempoMin4 = diferencia;
 
-							tiempoPro4 += diferencia2;
-						}
-
-						promedioEspera += diferencia2;
-
-						compEnEspera++;
-						indexEspera++;
-						if(indexEspera == comparendosOrdenados.length)
-							break;
-
-						compEspera = (Comparendo) comparendosOrdenados[indexEspera];
-						fechaCompEpera = comp.getFecha();
-						c.setTime(fechaComp);
-
-						diaCompEspera = c.get(Calendar.DAY_OF_YEAR);
-						diferencia2 = diaComp-dia;
+							tiempoPro4 += diferencia;
+							promedioEspera += diferencia;
+							
+							cantNoProce4++;
+						}						
 					}
+					
+					index++;
+					compRevisados++;
 				}
-
-				c.setTime(date1);
-				c.add(Calendar.DAY_OF_MONTH, 1);
-
-				date1 = c.getTime();
-
+				
+				compEnEspera -= compRevisados;				
+				
 				//Cantidad de comparendos revisados 
 				datos.agregar(new ArregloDinamico<Integer>(2));
-				datos.darElemento(numeroDia).agregar(compRevisados);
+				datos.darElemento(dia-1).agregar(compRevisados);
 
 				//Cantidad de comparendos en espera 
 				datos.agregar(new ArregloDinamico<Integer>(2));
-				datos.darElemento(numeroDia).agregar(compEnEspera);				
+				datos.darElemento(dia-1).agregar(compEnEspera);	
+						
+				c.setTime(date1);
+				c.add(Calendar.DAY_OF_MONTH, 1);
+				date1 = c.getTime();
+				dia = c.get(Calendar.DAY_OF_YEAR);
 
-				numeroDia++;
 			}
-
-			tiempos400.agregar(tiempoMin400);
-			tiempos400.agregar(tiempoMax400);
-			tiempos400.agregar(tiempoPro400);
-
-			tiempos40.agregar(tiempoMin40);
-			tiempos40.agregar(tiempoMax40);
-			tiempos40.agregar(tiempoPro40);
-
-			tiempos4.agregar(tiempoMin4);
-			tiempos4.agregar(tiempoMax4);
-			tiempos4.agregar(tiempoPro4);
-
-			datos2.agregar(tiempos400);
-			datos2.agregar(tiempos40);
-			datos2.agregar(tiempos4);
-
-			promedioEspera = promedioEspera/comparendosOrdenados.length;	
-
-
-		}
+			
+			tiempoPro400 = tiempoPro400 / (cantNoProce400 != 0? cantNoProce400: Integer.MAX_VALUE);
+			tiempoPro40 = tiempoPro40 / (cantNoProce40 != 0? cantNoProce40: Integer.MAX_VALUE);
+			tiempoPro4 = tiempoPro4 / (cantNoProce4 != 0? cantNoProce4: Integer.MAX_VALUE);
+			
+			promedioEspera = promedioEspera / 365;
+			
+		} 
 		catch (ParseException e) 
 		{
 			e.printStackTrace();
 		}
+		
+		tiempos400.agregar(tiempoMin400);
+		tiempos400.agregar(tiempoMax400);
+		tiempos400.agregar(tiempoPro400);
 
+		tiempos40.agregar(tiempoMin40);
+		tiempos40.agregar(tiempoMax40);
+		tiempos40.agregar(tiempoPro40);
+
+		tiempos4.agregar(tiempoMin4);
+		tiempos4.agregar(tiempoMax4);
+		tiempos4.agregar(tiempoPro4);
+
+		datos2.agregar(tiempos400);
+		datos2.agregar(tiempos40);
+		datos2.agregar(tiempos4);
+		
+		
+		
 		resultado.agregar(costoTotal);
 
 		resultado.agregar(promedioEspera);
@@ -482,54 +460,29 @@ public class MVCModelo
 		resultado.agregar(datos);
 
 		resultado.agregar(datos2);
+		
+		resultado.agregar(limite);
 
 
 		return resultado;
 	}
 
-
-	public void sortMerge(Comparable<Comparendo>[] a)
+	private ArregloDinamico<Comparendo> ordenarComparendos() 
 	{
-		Comparendo[] aux = new Comparendo[a.length];
-		sortMerge2(a, aux, 0, a.length-1);		
-	} 
-
-	private void sortMerge2(Comparable<Comparendo>[] a, Comparable<Comparendo>[] aux, int lo, int hi) 
-	{
-		if (hi <= lo) 
-			return;
-		int mid = lo + (hi - lo) / 2;
-		sortMerge2(a, aux, lo, mid);
-		sortMerge2(a, aux, mid + 1, hi);
-		merge(a, aux, lo, mid, hi);
-
-	}
-
-	public void merge(Comparable<Comparendo>[] a, Comparable<Comparendo>[] aux, int lo, int mid, int hi)
-	{
-		for (int k = lo; k <= hi; k++) 
+		QueueHeap<Comparendo> q = new QueueHeap<>();
+		ArregloDinamico<Comparendo> ordenados = new ArregloDinamico<>(1);
+		
+		for (int i = 0; i < listaComparendos.darTamano(); i++) 
 		{
-			aux[k] = a[k]; 
+			Comparendo c = listaComparendos.darElemento(i);
+			
+			q.enqueue(c);
 		}
-
-		int i = lo, j = mid+1;
-		for (int k = lo; k <= hi; k++) 
-		{
-			if      (i > mid)              
-				a[k] = aux[j++];
-			else if (j > hi)              
-				a[k] = aux[i++];
-			else if (less(aux[j], aux[i]))
-				a[k] = aux[j++];
-			else                           
-				a[k] = aux[i++];
-		}
+		
+		while(!q.isEmpty())		
+			ordenados.agregar(q.dequeueMax());
+		
+		
+		return ordenados;
 	}
-
-	private boolean less(Comparable<Comparendo> v, Comparable<Comparendo> w)
-	{
-		return v.compareTo((Comparendo) w)<0;
-	}
-
-
 }	

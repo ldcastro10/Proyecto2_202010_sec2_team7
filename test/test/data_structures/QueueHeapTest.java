@@ -583,56 +583,7 @@ public class QueueHeapTest
 		assertEquals("El elemento no se encuentra en la lista", -1, lista.indexOf(366));
 	}
 	
-	/**
-	 * Prueba del metodo subList
-	 */
-	@Test
-	public void testSubList()
-	{
-		//Prueba con la lista vacia.
-		try
-		{
-			lista.subList(0, 1);
-			fail("La lista esta vacia, no deberia dejar crear sublistas.");
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			
-		}
-		
-		//Prueba con 20 elementos
-		setupEscenario2();
-		
-		try
-		{
-			lista.subList(15, 21);
-			fail("El indice se encuentra fuera de la lista, deberia fallar.");
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			//Correcto
-		}
-		
-		try
-		{
-			lista.subList(-1, 15);
-			fail("El indice se encuentra fuera de la lista, deberia fallar.");
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			//Correcto
-		}
-		
-		try
-		{
-			lista.subList(0, 20);
-			
-		}
-		catch(IndexOutOfBoundsException e)
-		{
-			fail("El indice se encuentra dentro de la lista, no deberia fallar.");
-		}
-	}
+	
 
 	/**
 	 * Revisa si hay numeros repetidos en la lista.

@@ -19,41 +19,16 @@ public class RedBlackBSTTest
 	{
 		arbol= new RedBlackBST<String, Integer>();
 	}
-	
-	public void setUpEscenario2()
-	{
-		arbol.putInSet("A", 1);
-		arbol.putInSet("B", 2);
-		arbol.putInSet("C", 3);
-		arbol.putInSet("D", 4);
-		arbol.putInSet("E", 5);
-		arbol.putInSet("F", 6);
-		arbol.putInSet("G", 7);
-		arbol.putInSet("H", 8);
-	}
-
-	public void setUpEscenario3()
-	{
-		arbol.putInSet("H", 8);
-		arbol.putInSet("G", 7);
-		arbol.putInSet("F", 6);
-		arbol.putInSet("E", 5);
-		arbol.putInSet("D", 4);
-		arbol.putInSet("C", 3);
-		arbol.putInSet("B", 2);
-		arbol.putInSet("A", 1);
-	}
-	
 	public void setUpEscenario4()
 	{
+		arbol.putInSet("A", 1);
 		arbol.putInSet("B", 2);
+		arbol.putInSet("C", 3);
+		arbol.putInSet("D", 4);
+		arbol.putInSet("E", 5);
 		arbol.putInSet("F", 6);
 		arbol.putInSet("G", 7);
-		arbol.putInSet("C", 3);
 		arbol.putInSet("H", 8);
-		arbol.putInSet("A", 1);
-		arbol.putInSet("E", 5);
-		arbol.putInSet("D", 4);
 	}
 	@Test
 	public void testSize()
@@ -75,7 +50,7 @@ public class RedBlackBSTTest
 		
 		//agrega 8 elementos mas
 		
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		assertEquals("El arbol de tener once elementos",11, arbol.size());		
 	}
@@ -100,7 +75,7 @@ public class RedBlackBSTTest
 		
 		assertEquals("El valor no corresponde",new Integer(13) ,arbol.get("R"));
 		
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		assertEquals("El valor no corresponde",new Integer(1) ,arbol.get("A"));
 		assertEquals("El valor no corresponde",new Integer(2) ,arbol.get("B"));
@@ -117,7 +92,7 @@ public class RedBlackBSTTest
 	{
 		assertEquals("La altura no es correcta el arbol esta vacio",-1, arbol.getHeight("B"));
 
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		assertEquals("La altura no es correcta",0, arbol.getHeight("D"));
 		assertEquals("La altura no es correcta",1, arbol.getHeight("B"));
@@ -128,23 +103,6 @@ public class RedBlackBSTTest
 		assertEquals("La altura no es correcta",-1, arbol.getHeight("X"));		
 	}
 	
-	@Test
-	public void testContains()
-	{
-		assertFalse("El elemento no existe", arbol.contains("A"));
-		
-		arbol.putInSet("X", 11);
-		
-		assertTrue("El elemento deberia estar contenido", arbol.contains("X"));
-		
-		setUpEscenario2();
-		
-		assertTrue("El elemento deberia estar contenido", arbol.contains("A"));
-		assertTrue("El elemento deberia estar contenido", arbol.contains("B"));
-		assertTrue("El elemento deberia estar contenido", arbol.contains("C"));
-		assertFalse("El elemento no existe", arbol.contains("R"));
-
-	}
 	
 	@Test
 	public void testPut1()
@@ -175,28 +133,25 @@ public class RedBlackBSTTest
 		assertEquals("El menor elemento no concuerda","M", arbol.min());
 		assertEquals("El mayor elemento no concuerda","S", arbol.max());		
 	}
-	@Test 
-	public void testPut2()
+	@Test
+	public void testContains()
 	{
-		setUpEscenario2();
+		assertFalse("El elemento no existe", arbol.contains("A"));
 		
-		assertTrue("Deberia estar balaciado el arbol", arbol.check());
-		assertEquals("Deberia tener 8 elemento el arbol",8, arbol.size());
-		assertEquals("El menor elemento no concuerda","A", arbol.min());
-		assertEquals("El mayor elemento no concuerda","H", arbol.max());		
+		arbol.putInSet("X", 11);
+		
+		assertTrue("El elemento deberia estar contenido", arbol.contains("X"));
+		
+		setUpEscenario4();
+		
+		assertTrue("El elemento deberia estar contenido", arbol.contains("A"));
+		assertTrue("El elemento deberia estar contenido", arbol.contains("B"));
+		assertTrue("El elemento deberia estar contenido", arbol.contains("C"));
+		assertFalse("El elemento no existe", arbol.contains("R"));
+		
 	}
 	@Test 
-	public void testPut3()
-	{
-		setUpEscenario3();
-		
-		assertTrue("Deberia estar balaciado el arbol", arbol.check());
-		assertEquals("Deberia tener 8 elemento el arbol",8, arbol.size());
-		assertEquals("El menor elemento no concuerda","A", arbol.min());
-		assertEquals("El mayor elemento no concuerda","H", arbol.max());		
-	}
-	@Test 
-	public void testPut4()
+	public void testPut()
 	{
 		setUpEscenario4();
 		
@@ -205,6 +160,7 @@ public class RedBlackBSTTest
 		assertEquals("El menor elemento no concuerda","A", arbol.min());
 		assertEquals("El mayor elemento no concuerda","H", arbol.max());		
 	}
+	
 	@Test
 	public void testHeight()
 	{
@@ -219,7 +175,7 @@ public class RedBlackBSTTest
 		arbol.putInSet("S", 25);
 		assertEquals("La altura no coincide",1,arbol.height());   
 		
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		assertEquals("La altura no coincide",3,arbol.height());		
 	}
@@ -243,7 +199,7 @@ public class RedBlackBSTTest
 		assertEquals("Deberia tener 4 elemento el arbol",4, arbol.size());
 		assertEquals("El menor elemento no concuerda","M", arbol.min());
 		
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		assertEquals("Deberia tener 12 elemento el arbol",12, arbol.size());
 		assertEquals("El menor elemento no concuerda","A", arbol.min());
@@ -272,7 +228,7 @@ public class RedBlackBSTTest
 		assertEquals("Deberia tener 4 elemento el arbol",4, arbol.size());
 		assertEquals("El mayor elemento no concuerda","S", arbol.max());
 		
-		setUpEscenario2();
+		setUpEscenario4();
 		assertEquals("Deberia tener 12 elemento el arbol",12, arbol.size());
 		assertEquals("El mayor elemento no concuerda","S", arbol.max());
 		
@@ -292,27 +248,6 @@ public class RedBlackBSTTest
 		arbol.putInSet("O", 25);
 		assertTrue("Deberia estar balaciado el arbol", arbol.check());
 		
-
-	}
-	@Test
-	public void testCheck2()
-	{
-		setUpEscenario2();
-		assertTrue("Deberia estar balaciado el arbol", arbol.check());
-
-	}
-	@Test
-	public void testCheck3()
-	{
-		setUpEscenario3();
-		assertTrue("Deberia estar balaciado el arbol", arbol.check());
-
-	}
-	@Test
-	public void testCheck4()
-	{
-		setUpEscenario4();
-		assertTrue("Deberia estar balaciado el arbol", arbol.check());
 
 	}
 	@Test 
@@ -354,7 +289,7 @@ public class RedBlackBSTTest
 	@Test 
 	public void testKeys2()
 	{
-		setUpEscenario2();
+		setUpEscenario4();
 		Iterator<String>it = arbol.keys();
 		int i = 0;
 		while(it.hasNext())
@@ -385,7 +320,7 @@ public class RedBlackBSTTest
 	@Test
 	public void testValuesInRange()
 	{		
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		Iterator<Integer> it= arbol.valuesInRange("B", "F");
 		
@@ -412,7 +347,7 @@ public class RedBlackBSTTest
 	@Test
 	public void testKeysInRange()
 	{		
-		setUpEscenario2();
+		setUpEscenario4();
 		
 		Iterator<String> it= arbol.keysInRange("B", "F");
 		

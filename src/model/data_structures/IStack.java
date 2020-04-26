@@ -39,14 +39,7 @@ public interface IStack<E>
 	 * @return true si esta vacia false de lo contrario
 	 */
 	public boolean isEmpty();
-	
-	/**
-	 * retorna el indice del objeto
-	 * @param o objeto a analizar
-	 * @return retorna el indice del objeto
-	 */
-	public int indexOf(Object o);
-	
+		
 	/**
 	 * retorna el objeto en la posicion que entra por parametro
 	 * @param index posicion del objeto
@@ -58,18 +51,7 @@ public interface IStack<E>
 	/**
 	 * borrar todos los elemetos de la lista
 	 */
-	public void clear();
-	
-	
-	
-	/**
-	 * adicionar un elemento a la lista en un indice especifico
-	 * @param index indice donde agregar el elmento	
-	 * @param element elemento a agregar
-	 */
-	public void add(int index, E element);
-	
-	
+	public void clear();	
 	
 	/**
 	 * Remover un elemento en una posicion	

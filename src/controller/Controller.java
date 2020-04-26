@@ -122,7 +122,10 @@ public class Controller {
 					break;
 					
 				case 6:
-					view.printReq2C(modelo.Parte2C());
+					view.printReq2C(modelo.Parte2CY3C(false));
+					break;
+				case 7:
+					view.printReq2C(modelo.Parte2CY3C(true));
 					break;
 					
 				default: 

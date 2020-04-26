@@ -144,11 +144,11 @@ public class Comparendo implements Comparable<Comparendo> {
 		double fecha2 = fecha.getTime();
 		if(fecha2 > fecha1) 
 		{
-			return 1;
+			return -1;
 		}
 		else if(fecha2 < fecha1)
 		{
-			return -1;
+			return 1;
 		}
 		else
 			return 0;

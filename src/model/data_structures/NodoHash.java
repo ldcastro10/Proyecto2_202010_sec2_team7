@@ -24,7 +24,7 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>>
 	private NodoHash<K,V> siguiente;
 	
 	/**
-	 * Constructor del Nodo
+	 * Constructor  del Nodo
 	 * @param key Llave
 	 * @param value Valor
 	 */
@@ -36,7 +36,7 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>>
 	}
 	
 	/**
-	 * Metodo que retorna la llave almacenada en el nodo.
+	 * Metodo que  retorna la llave almacenada en el nodo.
 	 * @return La llave almacenada en el nodo.
 	 */
 	public K darKey()
@@ -45,7 +45,7 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>>
 	}
 	
 	/**
-	 * Metodo que retorna los valores almacenados en el nodo
+	 * Metodo que retorna  los valores almacenados en el nodo
 	 * @return Los valores almacenados en el nodo.
 	 */
 	public ArregloDinamico<V> darValues()
@@ -54,7 +54,7 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>>
 	}
 	
 	/**
-	 * Anade un value al arreglo de values
+	 * Anade un  value al arreglo de values
 	 * @param value Dato ha agregar.
 	 */
 	public void addValue(V value)
@@ -63,7 +63,7 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>>
 	}
 	
 	/**
-	 * Metodo que retorna el siguiente nodo.
+	 * Metodo que  retorna el siguiente nodo.
 	 * @return Siguiente nodo
 	 */
 	public NodoHash<K,V> darSiguiente()
@@ -72,9 +72,9 @@ public class NodoHash<K extends Comparable<K>,V extends Comparable<V>>
 	}
 	
 	/**
-	 * Metodo que cambia el siguiente nodo.
-	 * <b>post: </b> Se ha cambiado el siguiente nodo
-	 * @param siguiente El nuevo siguiente nodo
+	 * Metodo que  cambia el siguiente nodo.
+	 * <b>post: </b> Se ha  cambiado el siguiente nodo
+	 * @param siguiente El  nuevo siguiente nodo
 	 */
 	public void cambiarSiguiente(NodoHash<K,V> siguiente)
 	{

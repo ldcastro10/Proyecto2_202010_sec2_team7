@@ -85,30 +85,6 @@ public class Stack<E> implements IStack<E>
 			return false;
 	}
 
-	public int indexOf(Object o) 
-	{
-		int index = -1;
-		if(primerNodo != null)
-		{
-			Nodo<E> actual = primerNodo;
-			E elemento = primerNodo.darElemento();
-			index++;
-			while(!o.equals(elemento))
-			{
-				actual = actual.darSiguiente();
-				if(actual != null)
-				{
-					elemento = actual.darElemento();
-					index++;	
-				}
-				else
-					return -1;
-			}
-		}
-
-		return index;
-	}
-
 	public E get(int index) throws IndexOutOfBoundsException
 	{
 		E elemento = null;
@@ -164,10 +140,6 @@ public class Stack<E> implements IStack<E>
 		
 		cantidadElementos = 0;
 	}
-
-	
-		
-
 	
 	@Override
 	public E remove(int pos) 
@@ -290,58 +262,7 @@ public class Stack<E> implements IStack<E>
 		return temp;
 
 	}
-
-	@Override
-	public void add(int index, E element) 
-	{
-		Nodo<E>anterior=null;
-		if(index!=0)
-		{
-			anterior= darNodo(index-1);
-
-		}
-		Nodo<E>actual=darNodo(index);
-		Nodo<E>primer= primerNodo;
-		if(index<=cantidadElementos)
-		{
-			if(primer==null)
-			{
-				primer= new Nodo<E>(element);
-				primerNodo=primer;
-			}
-			else if(index==0)
-			{
-				primerNodo=new Nodo<E>(element);
-				primerNodo.cambiarSiguiente(primer);
-				if(anterior!=null)
-				{
-					anterior.cambiarSiguiente(new Nodo<E>(element));
-
-				}
-			}
-			//			else if(actual==null)
-			//			{
-			//			}
-			else 
-			{
-				if(actual!=null)
-				{
-					Nodo<E>nuevo=new Nodo<E>(element);
-					anterior.cambiarSiguiente(nuevo);
-					nuevo.cambiarSiguiente(actual.darSiguiente());
-
-				}
-
-			}
-			cantidadElementos++;
-
-		}
-		else
-			throw new IndexOutOfBoundsException();
-
-	}
-		
-		
+			
 	
 
 	@Override
@@ -384,19 +305,4 @@ public class Stack<E> implements IStack<E>
 		}
 		return elim;
 	}	
-			
-		
-		
-		
-		
-		
-	
-
-	
-	
-	
-	
-	
-	
-	
 }
